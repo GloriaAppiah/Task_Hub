@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Hub</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .just-do-it {
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Task Hub</h1>
+
+  <div class="center">
+    <p>Current Time: <span id="live-time"></span></p>
+    <p class="just-do-it">Just do it!</p>
+  </div>
+
+  <div class="container">
+    <form id="taskForm">
+      <p>
+        <label for="taskName">Task Name:</label>
+        <input type="text" id="taskName" required>
+      </p>
+
+      <p>
+        <label for="taskDescription">Task Description:</label>
+        <textarea id="taskDescription" required></textarea>
+      </p>
+
+      <p>
+        <label for="dueDate">Due Date:</label>
+        <input type="datetime-local" id="dueDate" required>
+      </p>
+
+      <p>
+        <label for="taskPriority">Priority:</label>
+        <select id="taskPriority" required>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </p>
+
+      <p>
+        <label for="assignedTo">Assigned To:</label>
+        <input type="text" id="assignedTo" required>
+      </p>
+
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
+
+  <div class="container1 container">
+    <label for="searchInput">Search Tasks:</label>
+    <input type="text" id="searchInput" oninput="searchTasks()" placeholder="Enter task name">
+  </div>
+
+  <table id="taskTable">
+    <tr>
+      <th>Task Name</th>
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Priority</th>
+      <th>Assigned To</th>
+    </tr>
+  </table>
+
+  <button id="infoButton">i</button>
+  <div id="infoContainer" class="info-popup">
+    <p>This is a web-based application designed for desktop platforms, intended to assist users in maintaining temporal awareness during their online activities, particularly when deeply engaged in internet-related tasks.</p>
+    <button id="closeInfoButton">Close</button>
+  </div>
+
+  <script>
+    function updateTime() {
+      var now = new Date();
+      var timeElement = document.getElementById("live-time");
+      timeElement.innerText = now.toLocaleTimeString();
+    }
+
+    updateTime(); // Update the time immediately
+    setInterval(updateTime, 1000); // Update time every second
+
+    function searchTasks() {
+      var searchInput = document.getElementById("searchInput").value.toLowerCase();
+      var taskTable = document.getElementById("taskTable");
+      var rows = Array.from(taskTable.rows);
+
+      rows.forEach(function(row) {
+        var taskName = row.cells[0].innerText.toLowerCase();
+        var taskDescription = row.cells[1].innerText.toLowerCase();
+
+        if (taskName.includes(searchInput) || taskDescription.includes(searchInput)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
+
+  <script src="clean.js"></script>
+</body>
+</html>
